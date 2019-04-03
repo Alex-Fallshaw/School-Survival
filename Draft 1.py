@@ -1,21 +1,99 @@
-#Alex F's Text Based Adventure Game - School Survival
-teacher_points = 50
-popularity_points = 50
-happiness_points = 50
-def yn_question(question, y_response, y_teacher, y_popularity,y_happiness, n_response,n_teacher,n_popularity,n_happiness):
-    answer = input(question + " Please print Y for yes or N for no. ")
-    if answer == 'Quit' or answer == 'quit' or answer == 'Exit' or answer == 'exit':
-        HHHHEEEEELLLLLPPPPPPP
-    while answer != Y or != N:
-        answer = input('Please print Y for yes or N for no')
-    if answer == Y:
-        print(y_responce)
-        teacher_points += int(y_teacher)
-        popularity_points += int(y_popularity)
-        happiness_points += int(y_happiness)
-    elif answer == N:
-        print(n_responce)
-        teacher_points += int(n_teacher)
-        popularity_points += int(n_popularity)
-        happiness_points += int(n_happiness)
+import sys
 
+teach_points = 50
+pop_points = 50
+happy_points = 50
+
+questions = [
+    {
+        'prompt': 'whaddup?',
+        'options': [
+            {
+                'description': 'hello',
+                'reward': {'teach': 1, 'pop': 0, 'happy': 0},
+                'response': 'nerd',
+            },
+            {
+                'description': 'heyyyy',
+                'reward': {'teach': 0, 'pop': 1, 'happy': 0},
+                'response': 'nice',
+            },
+            {
+                'description': 'loser',
+                'reward': {'teach': 0, 'pop': 0, 'happy': 1},
+                'response': 'oy',
+            },
+        ],
+    },
+    {
+        'prompt': 'whaddup?',
+        'options': [
+            {
+                'description': 'hello',
+                'reward': {'teach': 1, 'pop': 0, 'happy': 0},
+                'response': 'nerd',
+            },
+            {
+                'description': 'heyyyy',
+                'reward': {'teach': 0, 'pop': 1, 'happy': 0},
+                'response': 'nice',
+            },
+            {
+                'description': 'loser',
+                'reward': {'teach': 0, 'pop': 0, 'happy': 1},
+                'response': 'oy',
+            },
+        ],
+    },
+    {
+        'prompt': 'whaddup?',
+        'options': [
+            {
+                'description': 'hello',
+                'reward': {'teach': 1, 'pop': 0, 'happy': 0},
+                'response': 'nerd',
+            },
+            {
+                'description': 'heyyyy',
+                'reward': {'teach': 0, 'pop': 1, 'happy': 0},
+                'response': 'nice',
+            },
+            {
+                'description': 'loser',
+                'reward': {'teach': 0, 'pop': 0, 'happy': 1},
+                'response': 'oy',
+            },
+        ],
+    },
+]
+
+
+def ask(question):
+    global teach_points, pop_points, happy_points
+    print(question['prompt'])
+    for ii in range(len(question['options'])):
+        option = question['options'][ii]
+        print('[' + str(int(ii) + 1) + '] ' + option['description'])
+    answer = input('Write the number of your answer: ')
+    if answer == 'Quit' or answer == 'quit':
+        sys.exit()
+    while answer != '1' and answer != '2' and answer != '3':
+        answer = input('Please choose a number: ')
+    choice = question['options'][int(answer) - 1]
+    reward = choice['reward']
+    teach_points += reward['teach']
+    pop_points += reward['pop']
+    happy_points += reward['happy']
+    print(choice['response'])
+
+
+def report():
+    global teach_points, pop_points, happy_points
+    print('You got ' + str(teach_points) + ' teacher points.')
+    print('You got ' + str(pop_points) + ' popularity points.')
+    print('You got ' + str(happy_points) + ' happiness points.')
+
+
+for question in questions:
+    ask(question)
+report()
