@@ -1,9 +1,13 @@
 import sys
 
+MAX_SCORE = 183
+
+# Initial scores
 teach_points = 50
 pop_points = 50
 happy_points = 50
 
+# This is my list of questions. Each includes what the computer say first, the responses, how the responses effect the points, and what the computer say after the response.
 questions = [
     {
         'prompt': 'Hi there! Are you ready to start school survival?',
@@ -67,7 +71,7 @@ questions = [
     },
     {
         'prompt': 'Your timetable for today is as follows: Drama, English, Mathematics, '
-                  'Lunch, Physical Education, History. You can access this at anytime by '
+                  'and 2 free periods. You can access this at anytime by '
                   'typing "timetable"',
         'options': [
             {
@@ -311,7 +315,7 @@ questions = [
 ]
 
 
-def ask(question):
+def ask(question):  # Plays a question in the code.
     global teach_points, pop_points, happy_points
     print(question['prompt'])
     for ii in range(len(question['options'])):
@@ -324,9 +328,8 @@ def ask(question):
         print('Drama')
         print('English')
         print('Mathematics')
-        print('Lunch')
-        print('Physical Education')
-        print('History')
+        print('Free Period')
+        print('Free Period')
         answer = input('Please type the number of your answer: ')
     while answer != '1' and answer != '2' and answer != '3':
         answer = input('Please type the number of your answer: ')
@@ -335,22 +338,65 @@ def ask(question):
     teach_points += reward['teach']
     pop_points += reward['pop']
     happy_points += reward['happy']
-    print(choice['response'])
+    print(choice['response']+"\n")
 
 
-def report():
+def grade(score):  #  Takes the amount of points earned and assigns it to a letter grade.
+    global MAX_SCORE
+    s = score / MAX_SCORE * 100
+    if s < 40:
+        return "F"
+    elif s < 45:
+        return "E"
+    elif s < 50:
+        return "E+"
+    elif s < 55:
+        return "D"
+    elif s < 60:
+        return "D+"
+    elif s < 65:
+        return "C"
+    elif s < 70:
+        return "C+"
+    elif s < 75:
+        return "B"
+    elif s < 80:
+        return "B+"
+    elif s < 90:
+        return "A"
+    else:
+        return "A+"
+
+
+def report():  # At the end of the game, collects some final info, createa the final score, passes it into the grade() function and tells the player its grade.
     global teach_points, pop_points, happy_points
-    favourite = input("Now that the day is over, we need to assess how you did. First of all, what do you think is most important in school?")
-        "[1] Grades"
-        "[2] Popularity"
-        "[3] Happiness"
-    while favourite != 1 and favourite != 2 and favourite != 3:
-        favourite 
-    while least_favourite != 1 and least_favourite != 2 and least_favourite != 3 and least_favourite
-    least_favourite = input("And what do you think is the least important?")
-    print('You got ' + str(teach_points) + ' teacher points.')
-    print('You got ' + str(pop_points) + ' popularity points.')
-    print('You got ' + str(happy_points) + ' happiness points.')
+    favourite = input("\n\nNow that the day is over, we need to assess how you did. First of all, what do you think is most important in school?\n"
+                      "[1] Grades\n"
+                      "[2] Popularity\n"
+                      "[3] Happiness\n"
+                      "Type the number of your answer: ")
+    while not(favourite == '1' or favourite == '2' or favourite == '3'):
+        favourite = input("Please type the number of your answer: ")
+    least_favourite = input("And what do you think is the least important?\n"
+                            "Please type the number of your answer: ")
+    while not(least_favourite == 1 or least_favourite == 2 or least_favourite == 3 or least_favourite != favourite):
+        least_favourite = input("Please type the number of your answer: ")
+
+    if favourite == 1:
+        teach_points *= 1.5
+    elif favourite == 2:
+        pop_points *= 1.5
+    elif favourite == 3:
+        happy_points *= 1.5
+
+    if least_favourite == 1:
+        teach_points *= 0.5
+    elif least_favourite == 3:
+        pop_points *= 0.5
+    elif least_favourite == 3:
+        happy_points *= 0.5
+
+    print("\nWell done, you made it through the day. Your overall score was: " + grade(teach_points + pop_points + happy_points))
 
 
 for question in questions:
